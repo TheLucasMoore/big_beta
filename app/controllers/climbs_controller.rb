@@ -1,9 +1,10 @@
 class ClimbsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_climb, only: [:show, :update, :destroy]
 
   # GET /climbs
   def index
-    @climbs = Climb.all
+    @climbs = Climb.where(user_id: current_user.id)
 
     render json: @climbs
   end
