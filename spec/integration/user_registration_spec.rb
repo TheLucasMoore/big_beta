@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'POST /signup', type: :request do
-  let(:url) { 'users/sign_up' }
-  let(:user) { create(:user) }
+  let(:url) { '/signup' }
+  let!(:user) { build(:user) }
   let(:params) do
     {
       user: {
@@ -20,12 +20,24 @@ RSpec.describe 'POST /signup', type: :request do
     end
 
     it 'returns a new user' do
-      expect(response.body).to match_schema('user')
+      parsed = JSON.parse(response.body)
+      expect(parsed['email']).to eq user.email
     end
   end
 
   context 'when user already exists' do
-    before do
+    # create this user in the database already
+    let!(:second_user) { create(:user) }
+    let(:params) do
+      {
+        user: {
+          email: second_user.email,
+          password: second_user.password
+        }
+      }
+    end
+
+    before do      
       post url, params: params
     end
 
@@ -34,7 +46,8 @@ RSpec.describe 'POST /signup', type: :request do
     end
 
     it 'returns validation errors' do
-      expect(json['errors'].first['title']).to eq('Bad Request')
+      parsed = JSON.parse(response.body)
+      expect(parsed['errors'].first['title']).to eq('Bad Request')
     end
   end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'POST /login', type: :request do
   let(:user) { create(:user) }
-  let(:url) { '/users/sign_in' }
+  let(:url) { '/login' }
   let(:params) do
     {
       user: {
@@ -24,11 +24,6 @@ RSpec.describe 'POST /login', type: :request do
     it 'returns JTW token in authorization header' do
       expect(response.headers['Authorization']).to be_present
     end
-
-    it 'returns valid JWT token' do
-      decoded_token = decoded_jwt_token_from_response(response)
-      expect(decoded_token.first['sub']).to be_present
-    end
   end
 
   context 'when login params are incorrect' do
@@ -41,7 +36,7 @@ RSpec.describe 'POST /login', type: :request do
 end
 
 RSpec.describe 'DELETE /logout', type: :request do
-  let(:url) { 'users/sign_out' }
+  let(:url) { '/logout' }
 
   it 'returns 204, no content' do
     delete url
