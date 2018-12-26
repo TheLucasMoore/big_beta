@@ -6,8 +6,4 @@ class User < ApplicationRecord
          :jwt_authenticatable,
          jwt_revocation_strategy: JwtBlacklist
         #  :omniauthable
-
-  def on_jwt_dispatch(token, payload)
-    do_something(token, payload)
-  end
 end
