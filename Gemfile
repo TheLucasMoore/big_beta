@@ -32,12 +32,16 @@ gem 'rack-cors'
 gem 'devise'
 gem 'devise-jwt'
 
+gem 'http'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "factory_bot_rails", "~> 4.0"
   gem 'dotenv-rails'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'mocha'
+  gem 'webmock'
 end
 
 group :development do
